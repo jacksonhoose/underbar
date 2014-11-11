@@ -165,6 +165,14 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    var i, 
+    accumulator = (accumulator % 1 === 0) ? accumulator : _.first(collection);
+
+    for(i = 0; i < collection.length; i++) {
+      accumulator = iterator(accumulator, collection[i]);
+    }
+    
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -183,6 +191,7 @@ var _ = {};
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce()
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -332,6 +341,29 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var triggerable = true;
+    var timeout;
+    var createTimeout = function() {
+      
+      if(!triggerable) 
+        return false;
+
+      triggerable = false;
+
+      timeout = setTimeout(function() {
+        triggerable = true;
+      }, wait);
+
+      return true;
+
+    };
+
+    return function () {
+      console.log('called');
+      if(createTimeout())
+        return func.apply(null, arguments);
+      else return false;
+    };
   };
 
 }).call(this);
