@@ -353,6 +353,10 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    var result = [];
+    for(var x = 0; x < collection.length; x++) {
+
+    }
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -361,6 +365,20 @@ var _ = {};
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    // get the longest index
+    var length = Math.max.apply(null, _.map(arguments, function (arr) {
+      return arr.length;
+    }));
+    var zipped = [];
+    var zip;
+    for(var x = 0; x < length; x++) {
+      zip = [];
+      for(var y = 0; y < arguments.length; y++) {
+        zip.push(arguments[y][x] !== undefined ? arguments[y][x] : undefined);
+      }
+      zipped.push(zip);
+    }
+    return zipped;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
