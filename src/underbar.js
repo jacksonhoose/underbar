@@ -192,8 +192,8 @@ var _ = {};
     iterator = iterator || function(a) {
       return a;
     };
-    return !!_.reduce(collection, function(a, b) {
-      return iterator(b) && a;
+    return _.reduce(collection, function(a, b) {
+      return !!iterator(b) && a;
     }, true);
   };
 
@@ -201,12 +201,14 @@ var _ = {};
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    iterator = iterator || function (a) {
+    if(!collection.length) return false;
+    iterator = iterator || function(a) {
       return a;
     };
-
-    if(!collection.length) return false;
-    return _.every(collection, iterator);
+    for(var x = 0; x < collection.length; x++) {
+      if(iterator(collection[x])) return true;
+    }
+    return false;
   };
 
 
