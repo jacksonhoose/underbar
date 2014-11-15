@@ -292,12 +292,13 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var cached, args;
-    return function() {
-      if(cached === undefined || args !== arguments) {
-        return cached = func.apply(null, arguments);
-      } 
-      else return cached;
+    var cache = {};
+    return function () {
+      var args = _.first(arguments);
+      if(cache.hasOwnProperty(args)) {
+        return cache[args];
+      }
+      return cache[args] = func.call(null, args);
     };
   };
 
